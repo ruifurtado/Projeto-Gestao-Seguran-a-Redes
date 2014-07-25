@@ -1,0 +1,10 @@
+ifconfig eth0 up
+ifconfig eth1 up
+
+brctl addbr switchs
+brctl addif switchs eth0
+brctl addif switchs eth1
+
+ifconfig switchs up
+
+snort -c /etc/snort/snort.conf -l /var/log/snort

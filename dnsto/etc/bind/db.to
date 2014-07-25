@@ -1,0 +1,15 @@
+$TTL    60000
+@        IN SOA  dnsto.to.   root.dnsto.to. (
+                    2006031201 ; serial
+                    28800 ; refresh
+                    14400 ; retry
+                    3600000 ; expire
+                    0 ; negative cache ttl
+                 )
+@        IN NS   dnsto.to.
+dnsto    IN  A   30.40.0.2
+pcteo    IN  A   30.40.2.2
+
+teo	      IN  NS  dnsteoto1.teo.to.
+dnsteoto1.teo IN  A   10.20.74.3
+

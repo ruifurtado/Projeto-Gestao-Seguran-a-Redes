@@ -1,0 +1,8 @@
+EnableIPv6: no
+Workdir: /var/www
+
+MaxBytes[_]: 8000
+
+Target[routeredge.0]: ifOutOctects.3&ifInOctects.3:private@10.20.73.1
+Title[routeredge.0]: Router Edge interface 0
+PageTop[routeredge.0]: <H1>RouterEdge eth0 ifOutOctects ifInOctects</H1> 

@@ -1,0 +1,16 @@
+options {
+  allow-recursion {0/0; };
+};
+
+zone "." {
+  type hint;
+  file "/etc/bind/db.root";
+};
+
+zone "teo.to" {
+  type slave;
+  file "/etc/bind/db.teo.to";
+  masters{10.20.74.4;};
+};
+
+

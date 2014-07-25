@@ -1,0 +1,8 @@
+.              IN  NS    ROOT-SERVER.
+ROOT-SERVER.   IN  A     30.40.1.2
+
+teo.to.        IN NS    dnsteoto1.to.
+dnsteoto1.to.  IN A     10.20.74.3
+
+
+

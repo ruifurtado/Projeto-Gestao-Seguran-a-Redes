@@ -1,0 +1,15 @@
+ifconfig eth0 10.20.74.2 netmask 255.255.255.0 up	
+route add default gw 10.20.74.1 dev eth0 
+
+chmod a+w /var/spool/mail
+chmod go-rw /etc/exim4/exim4.conf
+
+/etc/init.d/bind start
+/etc/init.d/exim4 start
+/etc/init.d/inetd start
+/etc/init.d/snmpd start
+/etc/init.d/apache2 start
+
+useradd -m -g users -p sa3tHJ3/KuYvI -s /bin/sh rui
+useradd -m -g users -p sa3tHJ3/KuYvI -s /bin/sh tiago
+useradd -m -g users -p sa3tHJ3/KuYvI -s /bin/sh manel

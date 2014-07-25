@@ -1,0 +1,19 @@
+ifconfig eth0 10.20.75.1 netmask 255.255.255.0 up
+ifconfig eth1 10.20.73.1 netmask 255.255.255.0 up
+ifconfig eth3 10.20.74.1 netmask 255.255.255.0 up
+ifconfig eth2 10.20.72.2 netmask 255.255.255.0 up
+route add default gw 10.20.72.1 dev eth2
+/etc/init.d/zebra start
+/etc/init.d/snmpd start
+
+route add -net 192.168.0.0 netmask 255.255.255.0 gw 10.20.75.2 eth0
+
+#iptables -I FORWARD -p tcp --dport 110 -j ACCEPT #POP3
+#iptables -I FORWARD -p tcp --dport 143 -j ACCEPT #IMAP
+#iptables -I FORWARD -p tcp --dport 25 -j ACCEPT #SMTP
+
+#iptables -I FORWARD 1 -p udp --dport 161 -j ACCEPT
+#iptables -I INPUT 1 -p udp --dport 161 -j ACCEPT
+#iptables -I OUTPUT 1 -p udp --dport 161 -j ACCEPT
+
+

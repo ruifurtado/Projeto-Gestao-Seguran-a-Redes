@@ -1,0 +1,63 @@
+ifconfig eth0 192.168.0.1 netmask 255.255.255.0 up
+ifconfig eth3 10.20.75.2 netmask 255.255.255.0 up
+
+route add default gw 10.20.75.1 dev eth3
+/etc/init.d/dhcp3-server start
+/etc/init.d/snmpd start
+
+#limpar as chain
+iptables --flush
+
+# NAT
+iptables -t nat -I POSTROUTING -o eth3 -j MASQUERADE
+
+# negar tudo por omissao
+iptables -I FORWARD -j DROP
+
+# permite todo o trafego dos pcs da rede domestica menos do pctv
+iptables -I FORWARD -i eth3 -o eth0  -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -I INPUT -d 192.168.0.1 -j ACCEPT
+iptables -I OUTPUT -s 192.168.0.1 -j ACCEPT
+iptables -I FORWARD -s 192.168.0.3 -j ACCEPT
+iptables -I FORWARD -s 192.168.0.4 -j ACCEPT
+iptables -I FORWARD -s 192.168.0.5 -j ACCEPT
+
+# pctv so aceita comunica com esta rede
+iptables -I FORWARD -s 192.168.0.2 -d 10.20.73.1 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -I FORWARD -s 192.168.0.2 -d 10.20.73.3 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -I FORWARD -s 192.168.0.2 -d 10.20.73.5 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -I FORWARD -s 192.168.0.2 -d 10.20.73.6 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+
+# restricao para pctv
+iptables -I INPUT -s 192.168.0.2 -d 10.20.75.2 -j DROP
+
+# permite que pctv possa comunicar com wallen graden por http saia da rede privada 
+iptables -I FORWARD -i eth0 -p tcp -d 10.20.73.2 -s 192.168.0.2 --dport http -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+
+# restricoes do pctv para vod
+iptables -I FORWARD -i eth0 -p tcp -d 10.20.73.4 -s 192.168.0.2 --dport udp -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -I FORWARD -p icmp -d 10.20.73.4 -s 192.168.0.2 --icmp-type echo-request -j ACCEPT
+iptables -I FORWARD -p icmp -s 10.20.73.4 -d 192.168.0.2 --icmp-type echo-reply -j ACCEPT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

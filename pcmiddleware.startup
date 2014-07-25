@@ -1,0 +1,27 @@
+ifconfig eth0 10.20.73.5 netmask 255.255.255.0 up	
+route add default gw 10.20.73.1 dev eth0 
+/etc/init.d/apache2 start
+mkdir -p /var/www/mrtg
+mkdir -p /var/www/routeredge
+mkdir -p /var/www/routerdomestico
+mkdir -p /var/www/mail
+mkdir -p /root
+
+
+LANG=C
+
+chmod g+w /var/www/index.html
+
+env LANG=C indexmaker --output=/var/www/routeredge.html /root/routeredge.cfg
+env LANG=C indexmaker --output=/var/www/routerdomestico.html /root/routerdomestico.cfg
+env LANG=C indexmaker --output=/var/www/mail.html /root/mail.cfg
+env LANG=C indexmaker --output=/var/www/mailtcp.html /root/mailtcp.cfg
+env LANG=C /usr/bin/mrtg /root/routeredge.cfg --daemon
+env LANG=C /usr/bin/mrtg /root/routerdomestico.cfg --daemon
+env LANG=C /usr/bin/mrtg /root/mail.cfg --daemon
+env LANG=C /usr/bin/mrtg /root/mailtcp.cfg --daemon
+
+
+
+
+

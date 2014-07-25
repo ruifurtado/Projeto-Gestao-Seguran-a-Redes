@@ -1,0 +1,21 @@
+$TTL    60000
+@        IN SOA  dnsteoto1.teo.to.   root.dnsteoto1.teo.to. (
+                    2006031201 ; serial
+                    28800 ; refresh
+                    14400 ; retry
+                    3600000 ; expire
+                    0 ; negative cache ttl
+                 )
+@         IN NS      dnsteoto1.teo.to.
+@	  IN MX 5    mail.teo.to.
+
+dnsteoto1 IN  A   10.20.74.3
+dnsteoto2 IN  A   10.20.74.4
+pc1       IN  A   10.20.76.2
+pc2	  IN  A   10.20.76.3
+pc3	  IN  A   10.20.77.2
+pctv      IN  A   10.20.78.2
+
+imap		IN	A	10.20.74.2
+pop		IN	A	10.20.74.2
+mail		IN 	A 	10.20.74.2

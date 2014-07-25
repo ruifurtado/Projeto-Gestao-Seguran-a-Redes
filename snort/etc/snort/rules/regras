@@ -1,0 +1,2 @@
+alert tcp any any -> any any (msg:"Ataque SQL cuidado!"; content:"'"; sid:1328;)
+alert tcp any any -> any any (msg:"Ataque SQL cuidado!"; content:"--"; sid:1324;)

@@ -1,0 +1,27 @@
+ifconfig eth0 10.20.75.1 netmask 255.255.255.0 up
+ifconfig eth1 10.20.73.1 netmask 255.255.255.0 up
+ifconfig eth3 10.20.74.1 netmask 255.255.255.0 up
+ifconfig eth2 10.20.72.2 netmask 255.255.255.0 up
+route add default gw 10.20.72.1 dev eth2
+
+/etc/init.d/zebra start
+/etc/init.d/snmpd start
+
+#limpar as chain
+iptables --flush
+
+# negar tudo por omissao
+iptables -I FORWARD -j DROP
+
+# os pcs da rede domestica tem acesso a servicos externos, aos servicos do coreswitch e do serviceswitch
+iptables -I FORWARD -i eth0 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+
+# as maquinas da DMZ apenas podem responder a pedidos. nao os podem fazer
+iptables -I FORWARD -i eth3 -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# o trafego de fora so pode ter como destino a DMZ.
+iptables -I FORWARD -i eth2 -d 10.20.74.0/24 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -I FORWARD -i eth2 -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# regras para  as restantes maquinas
+iptables -I FORWARD -i eth1 -d 10.20.75.2 -m state --state ESTABLISHED,RELATED -j ACCEPT
